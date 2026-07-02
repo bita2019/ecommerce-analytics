@@ -1,5 +1,3 @@
-# E-commerce Analytics Project
-
 # E-Commerce Analytics Pipeline
 
 An end-to-end data engineering project simulating a production-grade e-commerce analytics platform, built using the **Medallion Architecture** (Bronze → Silver → Gold) with Python and Apache Spark (PySpark).
@@ -98,19 +96,19 @@ ecommerce-analytics/
 
 ## Key Analytics (Gold Layer)
 
-```sql
 -- Monthly revenue by product category
 SELECT
-    DATE_TRUNC('month', order_date)  AS month,
-    product_category,
-    SUM(revenue)                     AS total_revenue,
-    COUNT(DISTINCT customer_id)      AS unique_customers,
-    ROUND(SUM(revenue) /
-          COUNT(DISTINCT customer_id), 2) AS revenue_per_customer
+DATE_TRUNC('month', order_date) AS month,
+product_category,
+SUM(revenue) AS total_revenue,
+COUNT(DISTINCT customer_id) AS unique_customers,
+ROUND(SUM(revenue) /
+COUNT(DISTINCT customer_id), 2) AS revenue_per_customer
 FROM gold.order_metrics
 GROUP BY 1, 2
 ORDER BY 1, total_revenue DESC;
-```
+
+````
 
 ```sql
 -- Customer retention: repeat purchasers
@@ -125,7 +123,7 @@ SELECT
     ROUND(100.0 * SUM(CASE WHEN total_orders > 1 THEN 1 END)
           / COUNT(*), 1) AS repeat_customer_rate_pct
 FROM purchase_counts;
-```
+````
 
 ---
 
